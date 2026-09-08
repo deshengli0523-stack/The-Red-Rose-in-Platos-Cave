@@ -1,0 +1,139 @@
+{
+  "$defs": {
+    "VersionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "object_id": {
+          "maxLength": 101,
+          "minLength": 38,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "client_[a-z0-9]{12}"
+              },
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            ]
+          },
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "title": "Object Id",
+          "type": "string"
+        },
+        "version": {
+          "exclusiveMinimum": 0,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_id",
+        "version",
+        "content_sha256"
+      ],
+      "title": "VersionRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "stale"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "review_due_at": {
+            "not": {
+              "type": "null"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "evaluated_at": {
+      "format": "date-time",
+      "title": "Evaluated At",
+      "type": "string",
+      "x-utc-only": true
+    },
+    "last_reviewed_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string",
+          "x-utc-only": true
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Last Reviewed At"
+    },
+    "policy_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "review_due_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string",
+          "x-utc-only": true
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Review Due At"
+    },
+    "source_observed_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string",
+          "x-utc-only": true
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Source Observed At"
+    },
+    "status": {
+      "enum": [
+        "current",
+        "historical",
+        "stale",
+        "not_time_sensitive"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "evaluated_at",
+    "source_observed_at",
+    "last_reviewed_at",
+    "review_due_at",
+    "policy_ref"
+  ],
+  "title": "EvidenceFreshnessSnapshot",
+  "type": "object"
+}

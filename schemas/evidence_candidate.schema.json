@@ -1,0 +1,872 @@
+{
+  "$defs": {
+    "EvidenceFreshnessSnapshot": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "stale"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "review_due_at": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "evaluated_at": {
+          "format": "date-time",
+          "title": "Evaluated At",
+          "type": "string",
+          "x-utc-only": true
+        },
+        "last_reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string",
+              "x-utc-only": true
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Reviewed At"
+        },
+        "policy_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "review_due_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string",
+              "x-utc-only": true
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Review Due At"
+        },
+        "source_observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string",
+              "x-utc-only": true
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Observed At"
+        },
+        "status": {
+          "enum": [
+            "current",
+            "historical",
+            "stale",
+            "not_time_sensitive"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "evaluated_at",
+        "source_observed_at",
+        "last_reviewed_at",
+        "review_due_at",
+        "policy_ref"
+      ],
+      "title": "EvidenceFreshnessSnapshot",
+      "type": "object"
+    },
+    "EvidenceLocator": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_page_span"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^pages:[1-9][0-9]*:[1-9][0-9]*-[1-9][0-9]*:[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_paragraph_span"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^paragraphs:[1-9][0-9]*-[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_line_span"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^lines:[1-9][0-9]*-[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_table_span"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^table:[1-9][0-9]*;rows:[1-9][0-9]*-[1-9][0-9]*;columns:[1-9][0-9]*-[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_sheet_range"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^sheet:[1-9][0-9]*;range:[A-Z]+[1-9][0-9]*-[A-Z]+[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "client_fact"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "maxLength": 106,
+                "not": {
+                  "anyOf": [
+                    {
+                      "pattern": "client_[a-z0-9]{12}"
+                    },
+                    {
+                      "pattern": "[\\r\\n\\u2028\\u2029]"
+                    }
+                  ]
+                },
+                "pattern": "^fact:[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "session_turn"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^turn:[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "wiki_section"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "maxLength": 136,
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^section:[a-z0-9]+(?:-[a-z0-9]+)*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "case_turn"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "pattern": "client_[a-z0-9]{12}"
+                    },
+                    {
+                      "pattern": "[\\r\\n\\u2028\\u2029]"
+                    },
+                    {
+                      "pattern": "^case:[a-z0-9_]{65,}_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12};turn:[1-9][0-9]*$"
+                    }
+                  ]
+                },
+                "pattern": "^case:[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12};turn:[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "graph_path"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^path:[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "anchor_refs": {
+          "items": {
+            "$ref": "#/$defs/VersionRef"
+          },
+          "minItems": 1,
+          "title": "Anchor Refs",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "display_locator": {
+          "maxLength": 512,
+          "minLength": 1,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              },
+              {
+                "pattern": "^[\\x09-\\x0d\\x1c-\\x20\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$"
+              }
+            ]
+          },
+          "pattern": "^[^\\x00-\\x1f\\x7f]+$",
+          "title": "Display Locator",
+          "type": "string"
+        },
+        "locator_kind": {
+          "enum": [
+            "source_page_span",
+            "source_paragraph_span",
+            "source_line_span",
+            "source_table_span",
+            "source_sheet_range",
+            "client_fact",
+            "session_turn",
+            "wiki_section",
+            "case_turn",
+            "graph_path"
+          ],
+          "title": "Locator Kind",
+          "type": "string"
+        },
+        "locator_policy_ref": {
+          "$ref": "#/$defs/VersionRef"
+        }
+      },
+      "required": [
+        "locator_kind",
+        "anchor_refs",
+        "display_locator",
+        "locator_policy_ref"
+      ],
+      "title": "EvidenceLocator",
+      "type": "object"
+    },
+    "EvidenceProvenanceView": {
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "case_contributor_count": {
+              "const": 0
+            },
+            "case_count": {
+              "const": 0
+            },
+            "client_exclusion_status": {
+              "const": "not_applicable"
+            },
+            "independent_source_count": {
+              "minimum": 1
+            },
+            "provenance_scope": {
+              "const": "global_source"
+            },
+            "source_count": {
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "case_contributor_count": {
+              "const": 0
+            },
+            "case_count": {
+              "const": 0
+            },
+            "client_exclusion_status": {
+              "const": "current_subject_private"
+            },
+            "independent_source_count": {
+              "const": 0
+            },
+            "provenance_scope": {
+              "const": "client_private"
+            },
+            "source_count": {
+              "const": 0
+            }
+          }
+        },
+        {
+          "properties": {
+            "case_contributor_count": {
+              "minimum": 1
+            },
+            "case_count": {
+              "minimum": 1
+            },
+            "client_exclusion_status": {
+              "enum": [
+                "no_subject_contribution",
+                "leave_one_subject_out_applied"
+              ]
+            },
+            "independent_source_count": {
+              "const": 0
+            },
+            "provenance_scope": {
+              "const": "case_derived"
+            },
+            "source_count": {
+              "const": 0
+            }
+          }
+        },
+        {
+          "properties": {
+            "case_contributor_count": {
+              "minimum": 1
+            },
+            "case_count": {
+              "minimum": 1
+            },
+            "client_exclusion_status": {
+              "enum": [
+                "no_subject_contribution",
+                "leave_one_subject_out_applied"
+              ]
+            },
+            "independent_source_count": {
+              "minimum": 1
+            },
+            "provenance_scope": {
+              "const": "mixed"
+            },
+            "source_count": {
+              "minimum": 1
+            }
+          }
+        }
+      ],
+      "properties": {
+        "case_contributor_count": {
+          "minimum": 0,
+          "title": "Case Contributor Count",
+          "type": "integer"
+        },
+        "case_count": {
+          "minimum": 0,
+          "title": "Case Count",
+          "type": "integer"
+        },
+        "client_exclusion_status": {
+          "enum": [
+            "not_applicable",
+            "current_subject_private",
+            "no_subject_contribution",
+            "leave_one_subject_out_applied"
+          ],
+          "title": "Client Exclusion Status",
+          "type": "string"
+        },
+        "derivation_rule_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "independent_source_count": {
+          "minimum": 0,
+          "title": "Independent Source Count",
+          "type": "integer"
+        },
+        "passage_count": {
+          "minimum": 0,
+          "title": "Passage Count",
+          "type": "integer"
+        },
+        "provenance_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "provenance_scope": {
+          "enum": [
+            "global_source",
+            "client_private",
+            "case_derived",
+            "mixed"
+          ],
+          "title": "Provenance Scope",
+          "type": "string"
+        },
+        "source_count": {
+          "minimum": 0,
+          "title": "Source Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "provenance_ref",
+        "provenance_scope",
+        "derivation_rule_ref",
+        "source_count",
+        "passage_count",
+        "case_count",
+        "case_contributor_count",
+        "independent_source_count",
+        "client_exclusion_status"
+      ],
+      "title": "EvidenceProvenanceView",
+      "type": "object",
+      "x-runtime-only-invariants": [
+        "independent_source_count_lte_source_count"
+      ]
+    },
+    "VersionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "object_id": {
+          "maxLength": 101,
+          "minLength": 38,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "client_[a-z0-9]{12}"
+              },
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            ]
+          },
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "title": "Object Id",
+          "type": "string"
+        },
+        "version": {
+          "exclusiveMinimum": 0,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_id",
+        "version",
+        "content_sha256"
+      ],
+      "title": "VersionRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "channel": {
+          "enum": [
+            "global_graph",
+            "lexical",
+            "vector",
+            "wiki"
+          ]
+        },
+        "provenance": {
+          "properties": {
+            "provenance_scope": {
+              "const": "global_source"
+            }
+          },
+          "required": [
+            "provenance_scope"
+          ]
+        }
+      },
+      "required": [
+        "channel",
+        "provenance"
+      ]
+    },
+    {
+      "properties": {
+        "channel": {
+          "enum": [
+            "client_history",
+            "profile"
+          ]
+        },
+        "provenance": {
+          "properties": {
+            "provenance_scope": {
+              "const": "client_private"
+            }
+          },
+          "required": [
+            "provenance_scope"
+          ]
+        }
+      },
+      "required": [
+        "channel",
+        "provenance"
+      ]
+    },
+    {
+      "properties": {
+        "channel": {
+          "enum": [
+            "case",
+            "global_graph",
+            "lexical",
+            "vector",
+            "wiki"
+          ]
+        },
+        "provenance": {
+          "properties": {
+            "provenance_scope": {
+              "const": "case_derived"
+            }
+          },
+          "required": [
+            "provenance_scope"
+          ]
+        }
+      },
+      "required": [
+        "channel",
+        "provenance"
+      ]
+    },
+    {
+      "properties": {
+        "channel": {
+          "enum": [
+            "case",
+            "global_graph",
+            "lexical",
+            "vector",
+            "wiki"
+          ]
+        },
+        "provenance": {
+          "properties": {
+            "provenance_scope": {
+              "const": "mixed"
+            }
+          },
+          "required": [
+            "provenance_scope"
+          ]
+        }
+      },
+      "required": [
+        "channel",
+        "provenance"
+      ]
+    }
+  ],
+  "properties": {
+    "channel": {
+      "enum": [
+        "profile",
+        "client_history",
+        "wiki",
+        "lexical",
+        "vector",
+        "global_graph",
+        "case"
+      ],
+      "title": "Channel",
+      "type": "string"
+    },
+    "contradicts_evidence_ids": {
+      "items": {
+        "maxLength": 101,
+        "minLength": 38,
+        "not": {
+          "anyOf": [
+            {
+              "pattern": "client_[a-z0-9]{12}"
+            },
+            {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          ]
+        },
+        "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        "type": "string"
+      },
+      "title": "Contradicts Evidence Ids",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "empirical_support": {
+      "enum": [
+        "unassessed",
+        "case_supported",
+        "observation_supported",
+        "empirically_supported",
+        "guideline_consistent",
+        "conflicting"
+      ],
+      "title": "Empirical Support",
+      "type": "string"
+    },
+    "evidence_id": {
+      "maxLength": 101,
+      "minLength": 38,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "client_[a-z0-9]{12}"
+          },
+          {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        ]
+      },
+      "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "framework_priority": {
+      "enum": [
+        "highest",
+        "normal",
+        "not_applicable"
+      ],
+      "title": "Framework Priority",
+      "type": "string"
+    },
+    "freshness": {
+      "$ref": "#/$defs/EvidenceFreshnessSnapshot"
+    },
+    "location": {
+      "$ref": "#/$defs/EvidenceLocator"
+    },
+    "provenance": {
+      "$ref": "#/$defs/EvidenceProvenanceView"
+    },
+    "review_status": {
+      "const": "approved",
+      "title": "Review Status",
+      "type": "string"
+    },
+    "score": {
+      "title": "Score",
+      "type": "number"
+    },
+    "source_grade": {
+      "enum": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "K1",
+        "K2",
+        "K3",
+        "K4",
+        "L1",
+        "L2",
+        "L3",
+        "L4"
+      ],
+      "title": "Source Grade",
+      "type": "string"
+    },
+    "supports_evidence_ids": {
+      "items": {
+        "maxLength": 101,
+        "minLength": 38,
+        "not": {
+          "anyOf": [
+            {
+              "pattern": "client_[a-z0-9]{12}"
+            },
+            {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          ]
+        },
+        "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        "type": "string"
+      },
+      "title": "Supports Evidence Ids",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "text_ref": {
+      "$ref": "#/$defs/VersionRef"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "text_ref",
+    "location",
+    "freshness",
+    "channel",
+    "review_status",
+    "source_grade",
+    "framework_priority",
+    "empirical_support",
+    "provenance",
+    "supports_evidence_ids",
+    "contradicts_evidence_ids",
+    "score"
+  ],
+  "title": "EvidenceCandidate",
+  "type": "object"
+}

@@ -1,0 +1,51 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "epistemic_status": {
+      "enum": [
+        "asserted",
+        "uncertain",
+        "disputed"
+      ],
+      "title": "Epistemic Status",
+      "type": "string"
+    },
+    "resolution_status": {
+      "enum": [
+        "open",
+        "resolved",
+        "not_applicable"
+      ],
+      "title": "Resolution Status",
+      "type": "string"
+    },
+    "review_status": {
+      "enum": [
+        "proposed",
+        "reviewed",
+        "approved",
+        "rejected"
+      ],
+      "title": "Review Status",
+      "type": "string"
+    },
+    "validity_status": {
+      "enum": [
+        "active",
+        "superseded",
+        "invalidated",
+        "historical"
+      ],
+      "title": "Validity Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "review_status",
+    "validity_status",
+    "resolution_status",
+    "epistemic_status"
+  ],
+  "title": "FactState",
+  "type": "object"
+}

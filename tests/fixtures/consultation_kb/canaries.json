@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "synthetic_only": true,
+  "rule_id": "known_canary",
+  "markers": [
+    "SYNTH-CANARY-ALPHA-9F3A",
+    "SYNTH-CANARY-BETA-71D2"
+  ]
+}

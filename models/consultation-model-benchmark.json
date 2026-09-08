@@ -1,0 +1,474 @@
+{
+  "schema_version": "consultation_model_benchmark_suite.v1",
+  "cases": [
+    {
+      "case_id": "syn_benchmark_chinese_original",
+      "query_kind": "chinese_original",
+      "query": "合成问题：请检索学而时习之的原句，并将原文和后世解释分开。",
+      "passages": [
+        {
+          "evidence_id": "syn_original_primary",
+          "text": "合成主要证据：学而时习之，不亦说乎，作为固定版本的原文定位。",
+          "relevance_grade": 3,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_commentary",
+          "text": "合成次要证据：后世注释把时习解释为按时温习与实践。",
+          "relevance_grade": 2,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_irrelevant",
+          "text": "合成无关材料：另一篇文章讨论季节变化。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_one",
+          "text": "合成干扰材料：现代课程建议每周按时复习一次。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_two",
+          "text": "合成干扰材料：另一部古籍使用学与习两个字讨论礼仪。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_three",
+          "text": "合成干扰材料：文章只解释温习概念，没有原句或章次。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_four",
+          "text": "合成干扰材料：学习计划把实践列为第四阶段。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_five",
+          "text": "合成干扰材料：版本目录记录了页码但没有目标原文。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_six",
+          "text": "合成干扰材料：朗读指南标注了说字的现代读音。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_seven",
+          "text": "合成干扰材料：某篇随笔把快乐与练习放在同一句中。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_eight",
+          "text": "合成干扰材料：注释索引只列作者姓名和出版年份。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_distractor_nine",
+          "text": "合成干扰材料：另一章的原句讨论朋友从远方来。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_original_forbidden",
+          "text": "合成越权材料：未获准的私人记录不能参与检索。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": false
+        }
+      ]
+    },
+    {
+      "case_id": "syn_benchmark_paraphrase",
+      "query_kind": "paraphrase",
+      "query": "合成问题：一个人反复练习并在行动中体会，哪条资料表达了相近意思？",
+      "passages": [
+        {
+          "evidence_id": "syn_paraphrase_primary",
+          "text": "合成主要证据：持续复习并实践所学，会在经验中形成新的理解。",
+          "relevance_grade": 3,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_secondary",
+          "text": "合成次要证据：学习不只在记忆，还需要通过行动检验。",
+          "relevance_grade": 2,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_irrelevant",
+          "text": "合成无关材料：园艺记录描述了浇水频率。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_one",
+          "text": "合成干扰材料：训练日志只统计重复次数，没有讨论理解。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_two",
+          "text": "合成干扰材料：行动清单列出整理书桌和安排时间。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_three",
+          "text": "合成干扰材料：记忆技巧文章主张一次背完全部内容。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_four",
+          "text": "合成干扰材料：体验课程介绍报名流程与上课地点。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_five",
+          "text": "合成干扰材料：练习册封面使用了实践二字。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_six",
+          "text": "合成干扰材料：研究摘要只比较两种复习软件的速度。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_seven",
+          "text": "合成干扰材料：旅行笔记描述反复经过同一条道路。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_eight",
+          "text": "合成干扰材料：行为记录没有说明学习目标或所得理解。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_paraphrase_distractor_nine",
+          "text": "合成干扰材料：课程评价只提到教室环境舒适。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        }
+      ]
+    },
+    {
+      "case_id": "syn_benchmark_cross_domain",
+      "query_kind": "cross_domain",
+      "query": "合成问题：怎样把知止的思想类比到生涯选择，同时避免替来访者作决定？",
+      "passages": [
+        {
+          "evidence_id": "syn_cross_domain_primary",
+          "text": "合成主要证据：知止可用于澄清边界和优先级，但生涯选择仍由当事人自主决定。",
+          "relevance_grade": 3,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_secondary",
+          "text": "合成次要证据：跨理论类比应标明解释性质，并保留条件路径。",
+          "relevance_grade": 2,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_irrelevant",
+          "text": "合成无关材料：岗位名称按字母顺序排列。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_one",
+          "text": "合成干扰材料：职业测评只输出三个岗位名称。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_two",
+          "text": "合成干扰材料：知止一词被用于描述项目停止日期。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_three",
+          "text": "合成干扰材料：生涯表格要求按薪资给选项排序。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_four",
+          "text": "合成干扰材料：理论词典只给出概念年代，没有应用条件。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_five",
+          "text": "合成干扰材料：招聘公告要求候选人自行填写联系方式。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_six",
+          "text": "合成干扰材料：优先级工具自动给任务添加颜色。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_seven",
+          "text": "合成干扰材料：边界一词出现在地图绘制说明中。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_eight",
+          "text": "合成干扰材料：自主决定被当作问卷中的一个选项标签。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_cross_domain_distractor_nine",
+          "text": "合成干扰材料：条件路径文档只说明文件命名规则。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        }
+      ]
+    },
+    {
+      "case_id": "syn_benchmark_counterevidence",
+      "query_kind": "counterevidence",
+      "query": "合成问题：关系冲突中只要立即表达情绪就一定改善吗，请同时找支持与反证。",
+      "passages": [
+        {
+          "evidence_id": "syn_counterevidence_primary",
+          "text": "合成主要证据：在安全且双方愿意倾听时，清楚表达感受可能减少误解。",
+          "relevance_grade": 3,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_opposing",
+          "text": "合成反证材料：在情绪高度激化或存在控制行为时，立即表达也可能升级冲突。",
+          "relevance_grade": 3,
+          "is_counterevidence": true,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_irrelevant",
+          "text": "合成无关材料：沟通软件的界面颜色可以调整。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_one",
+          "text": "合成干扰材料：情绪词表按强度列出多个形容词。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_two",
+          "text": "合成干扰材料：表达训练课程只介绍报名与签到。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_three",
+          "text": "合成干扰材料：关系图谱记录节点数量，没有咨询结论。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_four",
+          "text": "合成干扰材料：冲突一词用于描述两个软件版本不兼容。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_five",
+          "text": "合成干扰材料：沟通频率统计显示每天发送消息的数量。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_six",
+          "text": "合成干扰材料：改善计划只列家具摆放和照明调整。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_seven",
+          "text": "合成干扰材料：立即提交是表单按钮上的操作提示。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_eight",
+          "text": "合成干扰材料：倾听设备的说明书介绍音量设置。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_counterevidence_distractor_nine",
+          "text": "合成干扰材料：支持与反对被用于会议票数统计。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        }
+      ]
+    },
+    {
+      "case_id": "syn_benchmark_c1_scope",
+      "query_kind": "c1_scope",
+      "query": "合成问题：咨询师自创理论在何种范围内可以作为主框架，何时必须让位于事实硬约束？",
+      "passages": [
+        {
+          "evidence_id": "syn_c1_scope_primary",
+          "text": "合成主要证据：已批准且适用的咨询师自创理论可作最高咨询框架，但不能改写客户事实与专业硬约束。",
+          "relevance_grade": 3,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_secondary",
+          "text": "合成次要证据：适用范围不明时应保留不确定性并请求进一步证据。",
+          "relevance_grade": 2,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_forbidden",
+          "text": "合成越界材料：未批准且已过期的自创规则不得覆盖当前事实。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": false
+        },
+        {
+          "evidence_id": "syn_c1_scope_irrelevant",
+          "text": "合成无关材料：文件归档日期采用统一格式。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_one",
+          "text": "合成干扰材料：理论目录只列出框架名称和创建时间。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_two",
+          "text": "合成干扰材料：批准按钮的颜色由界面主题决定。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_three",
+          "text": "合成干扰材料：事实表格统计字段数量但不判断权威。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_four",
+          "text": "合成干扰材料：范围设置用于调整打印页面大小。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_five",
+          "text": "合成干扰材料：主框架一词出现在网页布局教程中。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_six",
+          "text": "合成干扰材料：硬约束列表只描述磁盘配额。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_seven",
+          "text": "合成干扰材料：咨询记录的页脚包含理论版本号。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_eight",
+          "text": "合成干扰材料：适用一词用于描述软件许可证平台。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        },
+        {
+          "evidence_id": "syn_c1_scope_distractor_nine",
+          "text": "合成干扰材料：不确定性图表只展示随机数分布。",
+          "relevance_grade": 0,
+          "is_counterevidence": false,
+          "allowed": true
+        }
+      ]
+    }
+  ]
+}

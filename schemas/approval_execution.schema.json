@@ -1,0 +1,118 @@
+{
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "applied_commit_version": {
+          "type": "null"
+        },
+        "state": {
+          "enum": [
+            "issued",
+            "claimed"
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "applied_commit_version": {
+          "not": {
+            "type": "null"
+          }
+        },
+        "state": {
+          "enum": [
+            "applied",
+            "acknowledged"
+          ]
+        }
+      },
+      "required": [
+        "applied_commit_version"
+      ]
+    }
+  ],
+  "properties": {
+    "applied_commit_version": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Applied Commit Version"
+    },
+    "descriptor_sha256": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Descriptor Sha256",
+      "type": "string"
+    },
+    "operation_id": {
+      "maxLength": 101,
+      "minLength": 38,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "client_[a-z0-9]{12}"
+          },
+          {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        ]
+      },
+      "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "title": "Operation Id",
+      "type": "string"
+    },
+    "request_id": {
+      "maxLength": 101,
+      "minLength": 38,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "client_[a-z0-9]{12}"
+          },
+          {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        ]
+      },
+      "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "issued",
+        "claimed",
+        "applied",
+        "acknowledged"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "target_scope_hash": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Target Scope Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "operation_id",
+    "request_id",
+    "descriptor_sha256",
+    "target_scope_hash",
+    "state"
+  ],
+  "title": "ApprovalExecution",
+  "type": "object"
+}

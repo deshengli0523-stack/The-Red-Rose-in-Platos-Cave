@@ -1,0 +1,179 @@
+name: CI
+
+on:
+  push:
+    branches: ["v1", "v2", "v3", "v4", "main"]
+  pull_request:
+    branches: ["v1", "v2", "v3", "v4", "main"]
+
+jobs:
+  upstream:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -e ".[mcp,pdf,watch]"
+          python -m pip install pytest
+
+      - name: Run upstream tests
+        run: |
+          python -m pytest tests/ -q --tb=short --ignore=tests/consultation_kb
+
+      - name: Verify Python 3.10 consultation boundary
+        if: matrix.python-version == '3.10'
+        run: |
+          python -m compileall -q consultation_kb
+          python -m pytest -q tests/consultation_kb/compat/test_py310_entrypoint.py
+
+      - name: Verify install works end-to-end
+        run: |
+          graphify --help
+          graphify install
+
+  consultation:
+    runs-on: windows-latest
+    env:
+      CONSULTATION_LOCK_TARGET: py312-core
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up ECMA regex runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Set up consultation Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: "x64"
+
+      - name: Install locked consultation environment
+        run: |
+          python -m pip install --require-hashes -r requirements/consultation-win-py312.lock.txt
+          python -m pip install --no-index --no-build-isolation --no-deps .
+          python -m pip check
+
+      - name: Verify locked production runtime
+        run: |
+          python -m pytest -q -p no:cacheprovider tests/consultation_kb/integration/test_locked_clean_venvs.py
+
+      - name: Run consultation tests
+        run: |
+          python -m pytest -q -p no:cacheprovider tests/consultation_kb -m "not model and not fault"
+
+      - name: Verify consultation CLI shell and upstream CLI
+        run: |
+          python -m consultation_kb --help
+          python -m consultation_kb doctor --help
+          python -c "import consultation_kb; print(consultation_kb.__version__)"
+          graphify --help
+
+  consultation-313:
+    runs-on: windows-latest
+    env:
+      CONSULTATION_LOCK_TARGET: py313-core
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up ECMA regex runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Set up compatibility Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          architecture: "x64"
+
+      - name: Install locked compatibility environment
+        run: |
+          python -m pip install --require-hashes -r requirements/consultation-win-py313.lock.txt
+          python -m pip install --no-index --no-build-isolation --no-deps .
+          python -m pip check
+
+      - name: Verify Python 3.13 degraded runtime
+        run: |
+          python -m compileall -q consultation_kb
+          python -m pytest -q -p no:cacheprovider tests/consultation_kb/integration/test_locked_clean_venvs.py
+          python -m consultation_kb --help
+          graphify --help
+
+  consultation-ml:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: "3.12"
+            lock: requirements/consultation-ml-win-py312.lock.txt
+            target: py312-ml
+          - python-version: "3.13"
+            lock: requirements/consultation-ml-win-py313.lock.txt
+            target: py313-ml
+    env:
+      CONSULTATION_LOCK_TARGET: ${{ matrix.target }}
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+      HF_DATASETS_OFFLINE: "1"
+      TOKENIZERS_PARALLELISM: "false"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up ML Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: "x64"
+
+      - name: Install locked ML environment
+        run: |
+          python -m pip install --require-hashes -r ${{ matrix.lock }}
+          python -m pip install --no-index --no-build-isolation --no-deps .
+          python -m pip check
+
+      - name: Verify locked CPU ML runtime
+        run: |
+          python -m pytest -q -p no:cacheprovider tests/consultation_kb/integration/test_locked_clean_venvs.py
+          python -c "import sentence_transformers, torch; assert not torch.cuda.is_available(); print(sentence_transformers.__version__, torch.__version__)"
+
+      - name: Run offline model contract tests
+        run: |
+          python -m pytest -q -p no:cacheprovider -m model tests/consultation_kb/model
+
+  consultation-fault:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up fault-test Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: "x64"
+
+      - name: Install locked fault-test environment
+        run: |
+          python -m pip install --require-hashes -r requirements/consultation-win-py312.lock.txt
+          python -m pip install --no-index --no-build-isolation --no-deps .
+          python -m pip check
+
+      - name: Run consultation process-fault tests
+        run: |
+          python -m pytest -q -p no:cacheprovider -m fault tests/consultation_kb/fault

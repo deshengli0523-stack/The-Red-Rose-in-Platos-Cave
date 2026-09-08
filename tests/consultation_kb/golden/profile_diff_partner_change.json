@@ -1,0 +1,36 @@
+{
+  "operations": [
+    "ADD",
+    "CONFIRM",
+    "CORRECT",
+    "SUPERSEDE",
+    "RESOLVE",
+    "MERGE"
+  ],
+  "direct_impact_fact_ids": [
+    "fact_weekend_arrangement"
+  ],
+  "indirect_review_fact_ids": [
+    "fact_communication_pattern"
+  ],
+  "current_view_removed_event_ids": [
+    "event_duplicate_one",
+    "event_duplicate_two",
+    "event_old_partner",
+    "event_resolved_issue",
+    "event_weekend_arrangement"
+  ],
+  "preserved_history_event_ids": [
+    "event_duplicate_one",
+    "event_duplicate_two",
+    "event_old_partner",
+    "event_resolved_issue",
+    "event_weekend_arrangement"
+  ],
+  "projected_goal_fact_ids": [
+    "fact_new_goal"
+  ],
+  "pending_review_fact_ids": [
+    "fact_communication_pattern"
+  ]
+}

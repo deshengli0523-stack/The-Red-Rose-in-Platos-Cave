@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string",
+      "x-utc-only": true
+    },
+    "parent_sha256s": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "title": "Parent Sha256S",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "run_id": {
+      "maxLength": 36,
+      "minLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "query_plan",
+        "conceptualization",
+        "theory_comparison",
+        "reply_drafts",
+        "evidence_audit",
+        "consistency_risk_review",
+        "final_bundle"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "turn_id": {
+      "maxLength": 36,
+      "minLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "title": "Turn Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "stage",
+    "turn_id",
+    "run_id",
+    "parent_sha256s",
+    "created_at"
+  ],
+  "title": "GenerationStageEnvelope",
+  "type": "object"
+}

@@ -1,0 +1,299 @@
+{
+  "$defs": {
+    "VersionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "object_id": {
+          "maxLength": 101,
+          "minLength": 38,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "client_[a-z0-9]{12}"
+              },
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            ]
+          },
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "title": "Object Id",
+          "type": "string"
+        },
+        "version": {
+          "exclusiveMinimum": 0,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_id",
+        "version",
+        "content_sha256"
+      ],
+      "title": "VersionRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "case_contributor_client_ids": {
+          "maxItems": 0
+        },
+        "case_ids": {
+          "maxItems": 0
+        },
+        "client_ids": {
+          "maxItems": 0
+        },
+        "private_owner_client_id": {
+          "type": "null"
+        },
+        "provenance_scope": {
+          "const": "global_source"
+        },
+        "source_ids": {
+          "minItems": 1
+        }
+      },
+      "required": [
+        "provenance_scope",
+        "source_ids"
+      ]
+    },
+    {
+      "properties": {
+        "case_contributor_client_ids": {
+          "maxItems": 0
+        },
+        "case_ids": {
+          "maxItems": 0
+        },
+        "client_ids": {
+          "minItems": 1
+        },
+        "private_owner_client_id": {
+          "not": {
+            "type": "null"
+          }
+        },
+        "provenance_scope": {
+          "const": "client_private"
+        },
+        "source_ids": {
+          "maxItems": 0
+        }
+      },
+      "required": [
+        "provenance_scope",
+        "client_ids",
+        "private_owner_client_id"
+      ]
+    },
+    {
+      "properties": {
+        "case_contributor_client_ids": {
+          "minItems": 1
+        },
+        "case_ids": {
+          "minItems": 1
+        },
+        "client_ids": {
+          "minItems": 1
+        },
+        "private_owner_client_id": {
+          "type": "null"
+        },
+        "provenance_scope": {
+          "const": "case_derived"
+        },
+        "source_ids": {
+          "maxItems": 0
+        }
+      },
+      "required": [
+        "provenance_scope",
+        "case_ids",
+        "client_ids",
+        "case_contributor_client_ids"
+      ]
+    },
+    {
+      "properties": {
+        "case_contributor_client_ids": {
+          "minItems": 1
+        },
+        "case_ids": {
+          "minItems": 1
+        },
+        "client_ids": {
+          "minItems": 1
+        },
+        "private_owner_client_id": {
+          "type": "null"
+        },
+        "provenance_scope": {
+          "const": "mixed"
+        },
+        "source_ids": {
+          "minItems": 1
+        }
+      },
+      "required": [
+        "provenance_scope",
+        "source_ids",
+        "case_ids",
+        "client_ids",
+        "case_contributor_client_ids"
+      ]
+    }
+  ],
+  "properties": {
+    "case_contributor_client_ids": {
+      "default": [],
+      "items": {
+        "maxLength": 19,
+        "minLength": 19,
+        "not": {
+          "pattern": "[\\r\\n\\u2028\\u2029]"
+        },
+        "pattern": "^client_[a-z0-9]{12}$",
+        "type": "string"
+      },
+      "title": "Case Contributor Client Ids",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "case_ids": {
+      "default": [],
+      "items": {
+        "maxLength": 101,
+        "minLength": 38,
+        "not": {
+          "anyOf": [
+            {
+              "pattern": "client_[a-z0-9]{12}"
+            },
+            {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          ]
+        },
+        "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        "type": "string"
+      },
+      "title": "Case Ids",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "client_ids": {
+      "default": [],
+      "items": {
+        "maxLength": 19,
+        "minLength": 19,
+        "not": {
+          "pattern": "[\\r\\n\\u2028\\u2029]"
+        },
+        "pattern": "^client_[a-z0-9]{12}$",
+        "type": "string"
+      },
+      "title": "Client Ids",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "derivation_rule_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "passage_ids": {
+      "default": [],
+      "items": {
+        "maxLength": 101,
+        "minLength": 38,
+        "not": {
+          "anyOf": [
+            {
+              "pattern": "client_[a-z0-9]{12}"
+            },
+            {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          ]
+        },
+        "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        "type": "string"
+      },
+      "title": "Passage Ids",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "private_owner_client_id": {
+      "anyOf": [
+        {
+          "maxLength": 19,
+          "minLength": 19,
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          },
+          "pattern": "^client_[a-z0-9]{12}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Private Owner Client Id"
+    },
+    "provenance_scope": {
+      "enum": [
+        "global_source",
+        "client_private",
+        "case_derived",
+        "mixed"
+      ],
+      "title": "Provenance Scope",
+      "type": "string"
+    },
+    "source_ids": {
+      "default": [],
+      "items": {
+        "maxLength": 101,
+        "minLength": 38,
+        "not": {
+          "anyOf": [
+            {
+              "pattern": "client_[a-z0-9]{12}"
+            },
+            {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          ]
+        },
+        "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        "type": "string"
+      },
+      "title": "Source Ids",
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "provenance_scope",
+    "derivation_rule_ref"
+  ],
+  "title": "Provenance",
+  "type": "object",
+  "x-runtime-only-invariants": [
+    "client_private_client_ids_equal_owner_singleton",
+    "case_or_mixed_client_ids_equal_case_contributors"
+  ]
+}

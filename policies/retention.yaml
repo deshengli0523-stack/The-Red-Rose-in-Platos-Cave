@@ -1,0 +1,12 @@
+schema_version: "1.0"
+policy_id: retention
+policy_version: 1
+retention_categories:
+  - identity_mapping
+  - source_record
+  - private_session_record
+  - approved_fact_governance
+  - approved_shared_case
+  - rebuildable_derivative
+  - temporary_staging
+  - minimal_noncontent_audit

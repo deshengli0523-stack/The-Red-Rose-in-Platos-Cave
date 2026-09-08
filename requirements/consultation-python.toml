@@ -1,0 +1,12 @@
+[python]
+implementation = "CPython"
+series = "3.12"
+min_patch = 10
+bits = 64
+venv = true
+
+[paths]
+forbidden_fragments = [".cache/codex-runtimes", ".cache\\codex-runtimes"]
+
+[resolver]
+not_found_exit_code = 42

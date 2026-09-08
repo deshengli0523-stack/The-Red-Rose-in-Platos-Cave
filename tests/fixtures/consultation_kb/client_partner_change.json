@@ -1,0 +1,19 @@
+{
+  "schema_version": "client_partner_change.v1",
+  "synthetic": true,
+  "initial": {
+    "current_partner": "甲",
+    "direct_dependency": "与甲相关的周末安排",
+    "general_pattern": "冲突时可能沉默"
+  },
+  "approved_change": {
+    "effective_at": "2026-07-01T12:00:00Z",
+    "known_and_approved_at": "2026-07-16T12:00:00Z",
+    "current_partner": "乙"
+  },
+  "expected": {
+    "direct_dependency": "propose_supersede",
+    "general_pattern": "manual_review",
+    "auto_applied_mutations": 0
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "$defs": {
+    "VersionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "object_id": {
+          "maxLength": 101,
+          "minLength": 38,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "client_[a-z0-9]{12}"
+              },
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            ]
+          },
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "title": "Object Id",
+          "type": "string"
+        },
+        "version": {
+          "exclusiveMinimum": 0,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_id",
+        "version",
+        "content_sha256"
+      ],
+      "title": "VersionRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "effective_status": {
+          "const": "active"
+        },
+        "matched_rule_ids": {
+          "minItems": 1
+        },
+        "missing_context_fields": {
+          "maxItems": 0
+        },
+        "revision": {
+          "not": {
+            "type": "null"
+          }
+        },
+        "status": {
+          "enum": [
+            "applicable",
+            "not_applicable"
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "effective_status": {
+          "const": "active"
+        },
+        "missing_context_fields": {
+          "minItems": 1
+        },
+        "revision": {
+          "not": {
+            "type": "null"
+          }
+        },
+        "status": {
+          "const": "insufficient_context"
+        }
+      }
+    },
+    {
+      "properties": {
+        "effective_status": {
+          "const": "none"
+        },
+        "empirical_support": {
+          "const": "unassessed"
+        },
+        "matched_rule_ids": {
+          "maxItems": 0
+        },
+        "missing_context_fields": {
+          "maxItems": 0
+        },
+        "revision": {
+          "type": "null"
+        },
+        "status": {
+          "const": "unavailable"
+        }
+      }
+    },
+    {
+      "properties": {
+        "effective_status": {
+          "enum": [
+            "expired",
+            "superseded",
+            "revoked"
+          ]
+        },
+        "missing_context_fields": {
+          "maxItems": 0
+        },
+        "revision": {
+          "not": {
+            "type": "null"
+          }
+        },
+        "status": {
+          "const": "unavailable"
+        }
+      }
+    }
+  ],
+  "properties": {
+    "conflict_evidence_ids": {
+      "items": {
+        "maxLength": 101,
+        "minLength": 38,
+        "not": {
+          "anyOf": [
+            {
+              "pattern": "client_[a-z0-9]{12}"
+            },
+            {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          ]
+        },
+        "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        "type": "string"
+      },
+      "title": "Conflict Evidence Ids",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "effective_status": {
+      "enum": [
+        "active",
+        "expired",
+        "superseded",
+        "revoked",
+        "none"
+      ],
+      "title": "Effective Status",
+      "type": "string"
+    },
+    "empirical_support": {
+      "enum": [
+        "unassessed",
+        "case_supported",
+        "observation_supported",
+        "empirically_supported",
+        "guideline_consistent",
+        "conflicting"
+      ],
+      "title": "Empirical Support",
+      "type": "string"
+    },
+    "matched_rule_ids": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 1,
+        "not": {
+          "anyOf": [
+            {
+              "pattern": "client_[a-z0-9]{12}"
+            },
+            {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          ]
+        },
+        "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$",
+        "type": "string"
+      },
+      "title": "Matched Rule Ids",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "missing_context_fields": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 1,
+        "not": {
+          "anyOf": [
+            {
+              "pattern": "client_[a-z0-9]{12}"
+            },
+            {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          ]
+        },
+        "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$",
+        "type": "string"
+      },
+      "title": "Missing Context Fields",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "revision": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VersionRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "scope_policy_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "status": {
+      "enum": [
+        "applicable",
+        "not_applicable",
+        "insufficient_context",
+        "unavailable"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "revision",
+    "scope_policy_ref",
+    "matched_rule_ids",
+    "missing_context_fields",
+    "effective_status",
+    "empirical_support",
+    "conflict_evidence_ids"
+  ],
+  "title": "C1ApplicabilityDecision",
+  "type": "object"
+}

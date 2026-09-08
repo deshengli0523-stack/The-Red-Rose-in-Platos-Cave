@@ -1,0 +1,1237 @@
+{
+  "$defs": {
+    "AuthoritySnapshotBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_epoch": {
+          "minimum": 0,
+          "title": "Authorization Epoch",
+          "type": "integer"
+        },
+        "client_runtime_epoch": {
+          "minimum": 0,
+          "title": "Client Runtime Epoch",
+          "type": "integer"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string",
+          "x-utc-only": true
+        },
+        "global_runtime_epoch": {
+          "minimum": 0,
+          "title": "Global Runtime Epoch",
+          "type": "integer"
+        },
+        "policy_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "run_id": {
+          "maxLength": 36,
+          "minLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "snapshot_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "tombstone_epoch": {
+          "minimum": 0,
+          "title": "Tombstone Epoch",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "snapshot_ref",
+        "run_id",
+        "global_runtime_epoch",
+        "client_runtime_epoch",
+        "tombstone_epoch",
+        "authorization_epoch",
+        "policy_ref",
+        "created_at"
+      ],
+      "title": "AuthoritySnapshotBinding",
+      "type": "object"
+    },
+    "C1ApplicabilityDecision": {
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "effective_status": {
+              "const": "active"
+            },
+            "matched_rule_ids": {
+              "minItems": 1
+            },
+            "missing_context_fields": {
+              "maxItems": 0
+            },
+            "revision": {
+              "not": {
+                "type": "null"
+              }
+            },
+            "status": {
+              "enum": [
+                "applicable",
+                "not_applicable"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "effective_status": {
+              "const": "active"
+            },
+            "missing_context_fields": {
+              "minItems": 1
+            },
+            "revision": {
+              "not": {
+                "type": "null"
+              }
+            },
+            "status": {
+              "const": "insufficient_context"
+            }
+          }
+        },
+        {
+          "properties": {
+            "effective_status": {
+              "const": "none"
+            },
+            "empirical_support": {
+              "const": "unassessed"
+            },
+            "matched_rule_ids": {
+              "maxItems": 0
+            },
+            "missing_context_fields": {
+              "maxItems": 0
+            },
+            "revision": {
+              "type": "null"
+            },
+            "status": {
+              "const": "unavailable"
+            }
+          }
+        },
+        {
+          "properties": {
+            "effective_status": {
+              "enum": [
+                "expired",
+                "superseded",
+                "revoked"
+              ]
+            },
+            "missing_context_fields": {
+              "maxItems": 0
+            },
+            "revision": {
+              "not": {
+                "type": "null"
+              }
+            },
+            "status": {
+              "const": "unavailable"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "conflict_evidence_ids": {
+          "items": {
+            "maxLength": 101,
+            "minLength": 38,
+            "not": {
+              "anyOf": [
+                {
+                  "pattern": "client_[a-z0-9]{12}"
+                },
+                {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                }
+              ]
+            },
+            "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Conflict Evidence Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "effective_status": {
+          "enum": [
+            "active",
+            "expired",
+            "superseded",
+            "revoked",
+            "none"
+          ],
+          "title": "Effective Status",
+          "type": "string"
+        },
+        "empirical_support": {
+          "enum": [
+            "unassessed",
+            "case_supported",
+            "observation_supported",
+            "empirically_supported",
+            "guideline_consistent",
+            "conflicting"
+          ],
+          "title": "Empirical Support",
+          "type": "string"
+        },
+        "matched_rule_ids": {
+          "items": {
+            "maxLength": 64,
+            "minLength": 1,
+            "not": {
+              "anyOf": [
+                {
+                  "pattern": "client_[a-z0-9]{12}"
+                },
+                {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                }
+              ]
+            },
+            "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Matched Rule Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "missing_context_fields": {
+          "items": {
+            "maxLength": 64,
+            "minLength": 1,
+            "not": {
+              "anyOf": [
+                {
+                  "pattern": "client_[a-z0-9]{12}"
+                },
+                {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                }
+              ]
+            },
+            "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Missing Context Fields",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VersionRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scope_policy_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "status": {
+          "enum": [
+            "applicable",
+            "not_applicable",
+            "insufficient_context",
+            "unavailable"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "revision",
+        "scope_policy_ref",
+        "matched_rule_ids",
+        "missing_context_fields",
+        "effective_status",
+        "empirical_support",
+        "conflict_evidence_ids"
+      ],
+      "title": "C1ApplicabilityDecision",
+      "type": "object"
+    },
+    "EvidenceCandidate": {
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "channel": {
+              "enum": [
+                "global_graph",
+                "lexical",
+                "vector",
+                "wiki"
+              ]
+            },
+            "provenance": {
+              "properties": {
+                "provenance_scope": {
+                  "const": "global_source"
+                }
+              },
+              "required": [
+                "provenance_scope"
+              ]
+            }
+          },
+          "required": [
+            "channel",
+            "provenance"
+          ]
+        },
+        {
+          "properties": {
+            "channel": {
+              "enum": [
+                "client_history",
+                "profile"
+              ]
+            },
+            "provenance": {
+              "properties": {
+                "provenance_scope": {
+                  "const": "client_private"
+                }
+              },
+              "required": [
+                "provenance_scope"
+              ]
+            }
+          },
+          "required": [
+            "channel",
+            "provenance"
+          ]
+        },
+        {
+          "properties": {
+            "channel": {
+              "enum": [
+                "case",
+                "global_graph",
+                "lexical",
+                "vector",
+                "wiki"
+              ]
+            },
+            "provenance": {
+              "properties": {
+                "provenance_scope": {
+                  "const": "case_derived"
+                }
+              },
+              "required": [
+                "provenance_scope"
+              ]
+            }
+          },
+          "required": [
+            "channel",
+            "provenance"
+          ]
+        },
+        {
+          "properties": {
+            "channel": {
+              "enum": [
+                "case",
+                "global_graph",
+                "lexical",
+                "vector",
+                "wiki"
+              ]
+            },
+            "provenance": {
+              "properties": {
+                "provenance_scope": {
+                  "const": "mixed"
+                }
+              },
+              "required": [
+                "provenance_scope"
+              ]
+            }
+          },
+          "required": [
+            "channel",
+            "provenance"
+          ]
+        }
+      ],
+      "properties": {
+        "channel": {
+          "enum": [
+            "profile",
+            "client_history",
+            "wiki",
+            "lexical",
+            "vector",
+            "global_graph",
+            "case"
+          ],
+          "title": "Channel",
+          "type": "string"
+        },
+        "contradicts_evidence_ids": {
+          "items": {
+            "maxLength": 101,
+            "minLength": 38,
+            "not": {
+              "anyOf": [
+                {
+                  "pattern": "client_[a-z0-9]{12}"
+                },
+                {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                }
+              ]
+            },
+            "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Contradicts Evidence Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "empirical_support": {
+          "enum": [
+            "unassessed",
+            "case_supported",
+            "observation_supported",
+            "empirically_supported",
+            "guideline_consistent",
+            "conflicting"
+          ],
+          "title": "Empirical Support",
+          "type": "string"
+        },
+        "evidence_id": {
+          "maxLength": 101,
+          "minLength": 38,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "client_[a-z0-9]{12}"
+              },
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            ]
+          },
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "framework_priority": {
+          "enum": [
+            "highest",
+            "normal",
+            "not_applicable"
+          ],
+          "title": "Framework Priority",
+          "type": "string"
+        },
+        "freshness": {
+          "$ref": "#/$defs/EvidenceFreshnessSnapshot"
+        },
+        "location": {
+          "$ref": "#/$defs/EvidenceLocator"
+        },
+        "provenance": {
+          "$ref": "#/$defs/EvidenceProvenanceView"
+        },
+        "review_status": {
+          "const": "approved",
+          "title": "Review Status",
+          "type": "string"
+        },
+        "score": {
+          "title": "Score",
+          "type": "number"
+        },
+        "source_grade": {
+          "enum": [
+            "T1",
+            "T2",
+            "T3",
+            "T4",
+            "C1",
+            "C2",
+            "C3",
+            "C4",
+            "C5",
+            "C6",
+            "K1",
+            "K2",
+            "K3",
+            "K4",
+            "L1",
+            "L2",
+            "L3",
+            "L4"
+          ],
+          "title": "Source Grade",
+          "type": "string"
+        },
+        "supports_evidence_ids": {
+          "items": {
+            "maxLength": 101,
+            "minLength": 38,
+            "not": {
+              "anyOf": [
+                {
+                  "pattern": "client_[a-z0-9]{12}"
+                },
+                {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                }
+              ]
+            },
+            "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "title": "Supports Evidence Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "text_ref": {
+          "$ref": "#/$defs/VersionRef"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "text_ref",
+        "location",
+        "freshness",
+        "channel",
+        "review_status",
+        "source_grade",
+        "framework_priority",
+        "empirical_support",
+        "provenance",
+        "supports_evidence_ids",
+        "contradicts_evidence_ids",
+        "score"
+      ],
+      "title": "EvidenceCandidate",
+      "type": "object"
+    },
+    "EvidenceFreshnessSnapshot": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "stale"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "review_due_at": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "evaluated_at": {
+          "format": "date-time",
+          "title": "Evaluated At",
+          "type": "string",
+          "x-utc-only": true
+        },
+        "last_reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string",
+              "x-utc-only": true
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Reviewed At"
+        },
+        "policy_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "review_due_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string",
+              "x-utc-only": true
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Review Due At"
+        },
+        "source_observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string",
+              "x-utc-only": true
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Observed At"
+        },
+        "status": {
+          "enum": [
+            "current",
+            "historical",
+            "stale",
+            "not_time_sensitive"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "evaluated_at",
+        "source_observed_at",
+        "last_reviewed_at",
+        "review_due_at",
+        "policy_ref"
+      ],
+      "title": "EvidenceFreshnessSnapshot",
+      "type": "object"
+    },
+    "EvidenceLocator": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_page_span"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^pages:[1-9][0-9]*:[1-9][0-9]*-[1-9][0-9]*:[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_paragraph_span"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^paragraphs:[1-9][0-9]*-[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_line_span"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^lines:[1-9][0-9]*-[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_table_span"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^table:[1-9][0-9]*;rows:[1-9][0-9]*-[1-9][0-9]*;columns:[1-9][0-9]*-[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "source_sheet_range"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^sheet:[1-9][0-9]*;range:[A-Z]+[1-9][0-9]*-[A-Z]+[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "client_fact"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "maxLength": 106,
+                "not": {
+                  "anyOf": [
+                    {
+                      "pattern": "client_[a-z0-9]{12}"
+                    },
+                    {
+                      "pattern": "[\\r\\n\\u2028\\u2029]"
+                    }
+                  ]
+                },
+                "pattern": "^fact:[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "session_turn"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^turn:[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "wiki_section"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "maxLength": 136,
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^section:[a-z0-9]+(?:-[a-z0-9]+)*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "case_turn"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "pattern": "client_[a-z0-9]{12}"
+                    },
+                    {
+                      "pattern": "[\\r\\n\\u2028\\u2029]"
+                    },
+                    {
+                      "pattern": "^case:[a-z0-9_]{65,}_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12};turn:[1-9][0-9]*$"
+                    }
+                  ]
+                },
+                "pattern": "^case:[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12};turn:[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "graph_path"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "display_locator": {
+                "not": {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                "pattern": "^path:[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "anchor_refs": {
+          "items": {
+            "$ref": "#/$defs/VersionRef"
+          },
+          "minItems": 1,
+          "title": "Anchor Refs",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "display_locator": {
+          "maxLength": 512,
+          "minLength": 1,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              },
+              {
+                "pattern": "^[\\x09-\\x0d\\x1c-\\x20\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$"
+              }
+            ]
+          },
+          "pattern": "^[^\\x00-\\x1f\\x7f]+$",
+          "title": "Display Locator",
+          "type": "string"
+        },
+        "locator_kind": {
+          "enum": [
+            "source_page_span",
+            "source_paragraph_span",
+            "source_line_span",
+            "source_table_span",
+            "source_sheet_range",
+            "client_fact",
+            "session_turn",
+            "wiki_section",
+            "case_turn",
+            "graph_path"
+          ],
+          "title": "Locator Kind",
+          "type": "string"
+        },
+        "locator_policy_ref": {
+          "$ref": "#/$defs/VersionRef"
+        }
+      },
+      "required": [
+        "locator_kind",
+        "anchor_refs",
+        "display_locator",
+        "locator_policy_ref"
+      ],
+      "title": "EvidenceLocator",
+      "type": "object"
+    },
+    "EvidenceProvenanceView": {
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "case_contributor_count": {
+              "const": 0
+            },
+            "case_count": {
+              "const": 0
+            },
+            "client_exclusion_status": {
+              "const": "not_applicable"
+            },
+            "independent_source_count": {
+              "minimum": 1
+            },
+            "provenance_scope": {
+              "const": "global_source"
+            },
+            "source_count": {
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "case_contributor_count": {
+              "const": 0
+            },
+            "case_count": {
+              "const": 0
+            },
+            "client_exclusion_status": {
+              "const": "current_subject_private"
+            },
+            "independent_source_count": {
+              "const": 0
+            },
+            "provenance_scope": {
+              "const": "client_private"
+            },
+            "source_count": {
+              "const": 0
+            }
+          }
+        },
+        {
+          "properties": {
+            "case_contributor_count": {
+              "minimum": 1
+            },
+            "case_count": {
+              "minimum": 1
+            },
+            "client_exclusion_status": {
+              "enum": [
+                "no_subject_contribution",
+                "leave_one_subject_out_applied"
+              ]
+            },
+            "independent_source_count": {
+              "const": 0
+            },
+            "provenance_scope": {
+              "const": "case_derived"
+            },
+            "source_count": {
+              "const": 0
+            }
+          }
+        },
+        {
+          "properties": {
+            "case_contributor_count": {
+              "minimum": 1
+            },
+            "case_count": {
+              "minimum": 1
+            },
+            "client_exclusion_status": {
+              "enum": [
+                "no_subject_contribution",
+                "leave_one_subject_out_applied"
+              ]
+            },
+            "independent_source_count": {
+              "minimum": 1
+            },
+            "provenance_scope": {
+              "const": "mixed"
+            },
+            "source_count": {
+              "minimum": 1
+            }
+          }
+        }
+      ],
+      "properties": {
+        "case_contributor_count": {
+          "minimum": 0,
+          "title": "Case Contributor Count",
+          "type": "integer"
+        },
+        "case_count": {
+          "minimum": 0,
+          "title": "Case Count",
+          "type": "integer"
+        },
+        "client_exclusion_status": {
+          "enum": [
+            "not_applicable",
+            "current_subject_private",
+            "no_subject_contribution",
+            "leave_one_subject_out_applied"
+          ],
+          "title": "Client Exclusion Status",
+          "type": "string"
+        },
+        "derivation_rule_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "independent_source_count": {
+          "minimum": 0,
+          "title": "Independent Source Count",
+          "type": "integer"
+        },
+        "passage_count": {
+          "minimum": 0,
+          "title": "Passage Count",
+          "type": "integer"
+        },
+        "provenance_ref": {
+          "$ref": "#/$defs/VersionRef"
+        },
+        "provenance_scope": {
+          "enum": [
+            "global_source",
+            "client_private",
+            "case_derived",
+            "mixed"
+          ],
+          "title": "Provenance Scope",
+          "type": "string"
+        },
+        "source_count": {
+          "minimum": 0,
+          "title": "Source Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "provenance_ref",
+        "provenance_scope",
+        "derivation_rule_ref",
+        "source_count",
+        "passage_count",
+        "case_count",
+        "case_contributor_count",
+        "independent_source_count",
+        "client_exclusion_status"
+      ],
+      "title": "EvidenceProvenanceView",
+      "type": "object",
+      "x-runtime-only-invariants": [
+        "independent_source_count_lte_source_count"
+      ]
+    },
+    "VersionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "object_id": {
+          "maxLength": 101,
+          "minLength": 38,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "client_[a-z0-9]{12}"
+              },
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            ]
+          },
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "title": "Object Id",
+          "type": "string"
+        },
+        "version": {
+          "exclusiveMinimum": 0,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_id",
+        "version",
+        "content_sha256"
+      ],
+      "title": "VersionRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "authority": {
+      "$ref": "#/$defs/AuthoritySnapshotBinding"
+    },
+    "c1_applicability": {
+      "$ref": "#/$defs/C1ApplicabilityDecision"
+    },
+    "client_snapshot_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "contradicting": {
+      "items": {
+        "$ref": "#/$defs/EvidenceCandidate"
+      },
+      "title": "Contradicting",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "exclusion_proof_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "graph_manifest_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "lexical_manifest_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "reranker_descriptor_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "run_id": {
+      "maxLength": 36,
+      "minLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "supporting": {
+      "items": {
+        "$ref": "#/$defs/EvidenceCandidate"
+      },
+      "title": "Supporting",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "temporary_fact_refs": {
+      "items": {
+        "$ref": "#/$defs/VersionRef"
+      },
+      "title": "Temporary Fact Refs",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "unresolved_conflict_refs": {
+      "items": {
+        "$ref": "#/$defs/VersionRef"
+      },
+      "title": "Unresolved Conflict Refs",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "vector_manifest_ref": {
+      "$ref": "#/$defs/VersionRef"
+    },
+    "wiki_manifest_ref": {
+      "$ref": "#/$defs/VersionRef"
+    }
+  },
+  "required": [
+    "run_id",
+    "authority",
+    "client_snapshot_ref",
+    "temporary_fact_refs",
+    "supporting",
+    "contradicting",
+    "unresolved_conflict_refs",
+    "c1_applicability",
+    "exclusion_proof_ref",
+    "wiki_manifest_ref",
+    "lexical_manifest_ref",
+    "vector_manifest_ref",
+    "graph_manifest_ref",
+    "reranker_descriptor_ref"
+  ],
+  "title": "EvidencePack",
+  "type": "object"
+}

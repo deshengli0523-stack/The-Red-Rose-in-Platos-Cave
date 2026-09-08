@@ -1,0 +1,51 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "effective_from": {
+      "format": "date-time",
+      "title": "Effective From",
+      "type": "string",
+      "x-utc-only": true
+    },
+    "effective_to": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string",
+          "x-utc-only": true
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Effective To"
+    },
+    "recorded_at": {
+      "format": "date-time",
+      "title": "Recorded At",
+      "type": "string",
+      "x-utc-only": true
+    },
+    "superseded_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string",
+          "x-utc-only": true
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Superseded At"
+    }
+  },
+  "required": [
+    "effective_from",
+    "effective_to",
+    "recorded_at",
+    "superseded_at"
+  ],
+  "title": "BitemporalWindow",
+  "type": "object"
+}

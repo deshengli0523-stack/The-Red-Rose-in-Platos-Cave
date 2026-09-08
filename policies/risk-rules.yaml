@@ -1,0 +1,146 @@
+schema_version: "1.0"
+policy_id: risk_rules
+policy_version: 1
+rules:
+  - rule_id: synthetic_general_observation
+    version: 1
+    category: synthetic_general_observation
+    level: general
+    pattern_type: literal
+    pattern: SYNTH-RISK-GENERAL-4C2E
+    negation_window_tokens: 0
+    required_context:
+      - synthetic_context_present
+    suggested_questions:
+      - SYNTH-QUESTION-GENERAL-VERIFY
+  - rule_id: synthetic_high_observation
+    version: 1
+    category: synthetic_high_observation
+    level: high
+    pattern_type: literal
+    pattern: SYNTH-RISK-HIGH-7D1A
+    negation_window_tokens: 0
+    required_context:
+      - synthetic_context_present
+    suggested_questions:
+      - SYNTH-QUESTION-HIGH-VERIFY
+  - rule_id: suicide_intent_zh
+    version: 1
+    category: suicide_intent
+    level: high
+    pattern_type: literal
+    pattern: 我想自杀
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - 确认当前意图、计划、可用手段、时间范围和保护因素。
+  - rule_id: suicide_intent_en
+    version: 1
+    category: suicide_intent
+    level: high
+    pattern_type: literal
+    pattern: I want to kill myself
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - Confirm current intent, plan, access to means, timeframe, and protective factors.
+  - rule_id: suicide_plan_zh
+    version: 1
+    category: suicide_plan
+    level: high
+    pattern_type: literal
+    pattern: 我准备自杀
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - 确认计划、可用手段、预定时间、准备行为和保护因素。
+  - rule_id: suicide_plan_en
+    version: 1
+    category: suicide_plan
+    level: high
+    pattern_type: literal
+    pattern: I plan to kill myself
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - Confirm the plan, access to means, intended timeframe, preparations, and protective factors.
+  - rule_id: self_harm_intent_zh
+    version: 1
+    category: self_harm_intent
+    level: high
+    pattern_type: literal
+    pattern: 我想伤害自己
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - 确认伤害冲动、具体方式、可用手段和当前可控性。
+  - rule_id: self_harm_intent_en
+    version: 1
+    category: self_harm_intent
+    level: high
+    pattern_type: literal
+    pattern: I want to hurt myself
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - Confirm the urge, intended method, access to means, and current ability to stay safe.
+  - rule_id: harm_other_intent_zh
+    version: 1
+    category: harm_other_intent
+    level: high
+    pattern_type: literal
+    pattern: 我准备伤害别人
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - 确认目标、意图、计划、手段、时间范围和当前隔离条件。
+  - rule_id: harm_other_intent_en
+    version: 1
+    category: harm_other_intent
+    level: high
+    pattern_type: literal
+    pattern: I plan to hurt someone
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - Confirm the target, intent, plan, access to means, timeframe, and current separation.
+  - rule_id: immediate_interpersonal_danger_zh
+    version: 1
+    category: immediate_interpersonal_danger
+    level: high
+    pattern_type: literal
+    pattern: 他现在要杀我
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - 确认威胁者是否在场、是否有武器及当前可安全联系的支持。
+  - rule_id: immediate_interpersonal_danger_en
+    version: 1
+    category: immediate_interpersonal_danger
+    level: high
+    pattern_type: literal
+    pattern: He is going to kill me
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - Confirm whether the threatening person is present, has a weapon, and what support can be contacted safely.
+  - rule_id: ongoing_interpersonal_violence_zh
+    version: 1
+    category: ongoing_interpersonal_violence
+    level: general
+    pattern_type: literal
+    pattern: 他经常打我
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - 确认事件频率、最近一次时间、伤势、升级趋势和当前安全条件。
+  - rule_id: ongoing_interpersonal_violence_en
+    version: 1
+    category: ongoing_interpersonal_violence
+    level: general
+    pattern_type: literal
+    pattern: He keeps hitting me
+    negation_window_tokens: 6
+    required_context: []
+    suggested_questions:
+      - Confirm frequency, recency, injuries, escalation, and present safety conditions.

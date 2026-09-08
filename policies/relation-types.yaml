@@ -1,0 +1,17 @@
+schema_version: "1.0"
+policy_id: relation_types
+policy_version: 1
+global_relation_types:
+  - CITES
+  - SUPPORTS
+  - CONTRADICTS
+  - INTERPRETS
+  - DERIVED_FROM
+  - APPLIES_TO
+  - NOT_APPLICABLE_TO
+  - ANALOGOUS_TO
+  - DISTINCT_FROM
+  - CONTRAINDICATED_FOR
+  - REQUIRES_REFERRAL
+  - EXEMPLIFIED_BY
+  - SUPERSEDES

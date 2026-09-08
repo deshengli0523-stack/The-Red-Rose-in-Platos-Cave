@@ -1,0 +1,85 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "base_version": {
+      "minimum": 0,
+      "title": "Base Version",
+      "type": "integer"
+    },
+    "client_id": {
+      "anyOf": [
+        {
+          "maxLength": 19,
+          "minLength": 19,
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          },
+          "pattern": "^client_[a-z0-9]{12}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Client Id"
+    },
+    "draft_sha256": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Draft Sha256",
+      "type": "string"
+    },
+    "purpose": {
+      "enum": [
+        "create_client",
+        "profile_update",
+        "private_archive_publish",
+        "case_publish",
+        "passage_approve",
+        "claim_approve",
+        "claim_revoke",
+        "theory_approve",
+        "theory_revoke",
+        "wiki_publish",
+        "rebuild",
+        "rollback",
+        "delete"
+      ],
+      "title": "Purpose",
+      "type": "string"
+    },
+    "session_id": {
+      "anyOf": [
+        {
+          "maxLength": 36,
+          "minLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Session Id"
+    },
+    "target_id": {
+      "minLength": 1,
+      "not": {
+        "pattern": "^[\\x09-\\x0d\\x1c-\\x20\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$"
+      },
+      "title": "Target Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "purpose",
+    "target_id",
+    "base_version",
+    "draft_sha256"
+  ],
+  "title": "DraftDescriptor",
+  "type": "object"
+}

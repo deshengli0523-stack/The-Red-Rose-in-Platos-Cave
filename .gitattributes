@@ -1,0 +1,9 @@
+/.gitattributes text eol=lf
+docs/superpowers/specs/2026-07-17-consultation-kb-p0-task4-security-policy-design.md text eol=lf
+policies/evidence-levels.yaml text eol=lf
+policies/relation-types.yaml text eol=lf
+policies/retention.yaml text eol=lf
+policies/risk-rules.yaml text eol=lf
+requirements/consultation-*.in text eol=lf
+requirements/consultation-*.lock.txt text eol=lf
+schemas/*.schema.json text eol=lf

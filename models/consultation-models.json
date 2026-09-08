@@ -1,0 +1,117 @@
+{
+  "schema_version": "consultation_model_candidates.v1",
+  "candidates": [
+    {
+      "model_id": "bge_m3",
+      "role": "embedding",
+      "repo": "BAAI/bge-m3",
+      "expected_license": "mit",
+      "artifact_relpath": "embedding/bge-m3",
+      "tokenizer_relpath": "tokenizer.json",
+      "encoding": {
+        "adapter_class": "consultation_kb.retrieval.model_adapters.SentenceTransformersEmbedder",
+        "adapter_version": "1",
+        "query_prompt": "",
+        "document_prompt": "",
+        "pooling": "cls",
+        "normalize_embeddings": true,
+        "max_sequence_length": 8192,
+        "truncation": "longest_first",
+        "dtype": "float32",
+        "precision": "float32",
+        "dimension": 1024,
+        "score_function": "cosine"
+      },
+      "load_policy": {
+        "local_files_only": true,
+        "trust_remote_code": false,
+        "hf_hub_offline": "1",
+        "transformers_offline": "1"
+      }
+    },
+    {
+      "model_id": "bge_reranker_base",
+      "role": "reranker",
+      "repo": "BAAI/bge-reranker-base",
+      "expected_license": "mit",
+      "artifact_relpath": "reranker/bge-reranker-base",
+      "tokenizer_relpath": "tokenizer.json",
+      "encoding": {
+        "adapter_class": "consultation_kb.retrieval.model_adapters.SentenceTransformersCrossEncoderReranker",
+        "adapter_version": "1",
+        "query_prompt": "",
+        "document_prompt": "",
+        "pooling": "model_defined",
+        "normalize_embeddings": false,
+        "max_sequence_length": 512,
+        "truncation": "longest_first",
+        "dtype": "float32",
+        "precision": "float32",
+        "dimension": 1,
+        "score_function": "dot"
+      },
+      "load_policy": {
+        "local_files_only": true,
+        "trust_remote_code": false,
+        "hf_hub_offline": "1",
+        "transformers_offline": "1"
+      }
+    },
+    {
+      "model_id": "bge_reranker_v2_m3",
+      "role": "reranker",
+      "repo": "BAAI/bge-reranker-v2-m3",
+      "expected_license": "apache-2.0",
+      "artifact_relpath": "reranker/bge-reranker-v2-m3",
+      "tokenizer_relpath": "tokenizer.json",
+      "encoding": {
+        "adapter_class": "consultation_kb.retrieval.model_adapters.SentenceTransformersCrossEncoderReranker",
+        "adapter_version": "1",
+        "query_prompt": "",
+        "document_prompt": "",
+        "pooling": "model_defined",
+        "normalize_embeddings": false,
+        "max_sequence_length": 8192,
+        "truncation": "longest_first",
+        "dtype": "float32",
+        "precision": "float32",
+        "dimension": 1,
+        "score_function": "dot"
+      },
+      "load_policy": {
+        "local_files_only": true,
+        "trust_remote_code": false,
+        "hf_hub_offline": "1",
+        "transformers_offline": "1"
+      }
+    },
+    {
+      "model_id": "bge_small_zh_v1_5",
+      "role": "embedding",
+      "repo": "BAAI/bge-small-zh-v1.5",
+      "expected_license": "mit",
+      "artifact_relpath": "embedding/bge-small-zh-v1.5",
+      "tokenizer_relpath": "tokenizer.json",
+      "encoding": {
+        "adapter_class": "consultation_kb.retrieval.model_adapters.SentenceTransformersEmbedder",
+        "adapter_version": "1",
+        "query_prompt": "为这个句子生成表示以用于检索相关文章：",
+        "document_prompt": "",
+        "pooling": "cls",
+        "normalize_embeddings": true,
+        "max_sequence_length": 512,
+        "truncation": "longest_first",
+        "dtype": "float32",
+        "precision": "float32",
+        "dimension": 512,
+        "score_function": "cosine"
+      },
+      "load_policy": {
+        "local_files_only": true,
+        "trust_remote_code": false,
+        "hf_hub_offline": "1",
+        "transformers_offline": "1"
+      }
+    }
+  ]
+}

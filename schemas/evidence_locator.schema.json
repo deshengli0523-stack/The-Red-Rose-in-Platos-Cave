@@ -1,0 +1,342 @@
+{
+  "$defs": {
+    "VersionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "object_id": {
+          "maxLength": 101,
+          "minLength": 38,
+          "not": {
+            "anyOf": [
+              {
+                "pattern": "client_[a-z0-9]{12}"
+              },
+              {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            ]
+          },
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "title": "Object Id",
+          "type": "string"
+        },
+        "version": {
+          "exclusiveMinimum": 0,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_id",
+        "version",
+        "content_sha256"
+      ],
+      "title": "VersionRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "source_page_span"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            },
+            "pattern": "^pages:[1-9][0-9]*:[1-9][0-9]*-[1-9][0-9]*:[1-9][0-9]*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "source_paragraph_span"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            },
+            "pattern": "^paragraphs:[1-9][0-9]*-[1-9][0-9]*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "source_line_span"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            },
+            "pattern": "^lines:[1-9][0-9]*-[1-9][0-9]*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "source_table_span"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            },
+            "pattern": "^table:[1-9][0-9]*;rows:[1-9][0-9]*-[1-9][0-9]*;columns:[1-9][0-9]*-[1-9][0-9]*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "source_sheet_range"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            },
+            "pattern": "^sheet:[1-9][0-9]*;range:[A-Z]+[1-9][0-9]*-[A-Z]+[1-9][0-9]*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "client_fact"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "maxLength": 106,
+            "not": {
+              "anyOf": [
+                {
+                  "pattern": "client_[a-z0-9]{12}"
+                },
+                {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                }
+              ]
+            },
+            "pattern": "^fact:[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "session_turn"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            },
+            "pattern": "^turn:[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "wiki_section"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "maxLength": 136,
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            },
+            "pattern": "^section:[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "case_turn"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "not": {
+              "anyOf": [
+                {
+                  "pattern": "client_[a-z0-9]{12}"
+                },
+                {
+                  "pattern": "[\\r\\n\\u2028\\u2029]"
+                },
+                {
+                  "pattern": "^case:[a-z0-9_]{65,}_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12};turn:[1-9][0-9]*$"
+                }
+              ]
+            },
+            "pattern": "^case:[a-z][a-z0-9]*(?:_[a-z0-9]+)*_[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12};turn:[1-9][0-9]*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_kind": {
+            "const": "graph_path"
+          }
+        },
+        "required": [
+          "locator_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "display_locator": {
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            },
+            "pattern": "^path:[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "anchor_refs": {
+      "items": {
+        "$ref": "#/$defs/VersionRef"
+      },
+      "minItems": 1,
+      "title": "Anchor Refs",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "display_locator": {
+      "maxLength": 512,
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          },
+          {
+            "pattern": "^[\\x09-\\x0d\\x1c-\\x20\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$"
+          }
+        ]
+      },
+      "pattern": "^[^\\x00-\\x1f\\x7f]+$",
+      "title": "Display Locator",
+      "type": "string"
+    },
+    "locator_kind": {
+      "enum": [
+        "source_page_span",
+        "source_paragraph_span",
+        "source_line_span",
+        "source_table_span",
+        "source_sheet_range",
+        "client_fact",
+        "session_turn",
+        "wiki_section",
+        "case_turn",
+        "graph_path"
+      ],
+      "title": "Locator Kind",
+      "type": "string"
+    },
+    "locator_policy_ref": {
+      "$ref": "#/$defs/VersionRef"
+    }
+  },
+  "required": [
+    "locator_kind",
+    "anchor_refs",
+    "display_locator",
+    "locator_policy_ref"
+  ],
+  "title": "EvidenceLocator",
+  "type": "object"
+}

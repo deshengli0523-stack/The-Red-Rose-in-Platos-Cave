@@ -1,0 +1,29 @@
+schema_version: "1.0"
+policy_id: evidence_levels
+policy_version: 1
+source_grades:
+  - T1
+  - T2
+  - T3
+  - T4
+  - C1
+  - C2
+  - C3
+  - C4
+  - C5
+  - C6
+  - K1
+  - K2
+  - K3
+  - K4
+  - L1
+  - L2
+  - L3
+  - L4
+empirical_support:
+  - unassessed
+  - case_supported
+  - observation_supported
+  - empirically_supported
+  - guideline_consistent
+  - conflicting

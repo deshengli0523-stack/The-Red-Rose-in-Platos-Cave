@@ -1,0 +1,8 @@
+[mcp_servers.consultation-kb]
+command = "powershell.exe"
+args = ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", "start-consultation-kb.ps1"]
+cwd = "."
+startup_timeout_sec = 30
+tool_timeout_sec = 600
+required = true
+default_tools_approval_mode = "writes"

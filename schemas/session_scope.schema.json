@@ -1,0 +1,48 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "expires_at": {
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string",
+      "x-utc-only": true
+    },
+    "permissions": {
+      "items": {
+        "enum": [
+          "client_read",
+          "session_append",
+          "draft_write",
+          "formal_write"
+        ],
+        "type": "string"
+      },
+      "title": "Permissions",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "session_handle": {
+      "minLength": 1,
+      "not": {
+        "pattern": "^[\\x09-\\x0d\\x1c-\\x20\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$"
+      },
+      "title": "Session Handle",
+      "type": "string"
+    },
+    "session_id": {
+      "maxLength": 36,
+      "minLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "title": "Session Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "session_handle",
+    "session_id",
+    "permissions",
+    "expires_at"
+  ],
+  "title": "SessionScope",
+  "type": "object"
+}
