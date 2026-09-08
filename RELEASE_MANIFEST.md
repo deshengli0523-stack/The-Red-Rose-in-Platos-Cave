@@ -14,12 +14,13 @@ knowledge-base system.
 
 The snapshot contains the application source, tests, policies, schemas,
 Codex/MCP integration files, governed synthetic fixtures, formal operations
-documentation, and the upstream license.
+documentation, sanitized internal design records, and the upstream license.
 
-It intentionally excludes internal development plans under `docs/superpowers/`,
-Git history, local virtual environments, model weights, generated indexes,
-test caches, worktrees, vault contents, databases, secrets, local Codex
-configuration, and all client or consultation records.
+It intentionally excludes Git history, local virtual environments, model
+weights, generated indexes, test caches, worktrees, vault contents, databases,
+secrets, local Codex configuration, and all client or consultation records.
+Machine-specific absolute paths in internal design records are replaced by
+portable placeholders.
 
 The repository therefore contains no production knowledge corpus. Knowledge
 materials, local embedding/reranker model snapshots, and the encrypted vault
