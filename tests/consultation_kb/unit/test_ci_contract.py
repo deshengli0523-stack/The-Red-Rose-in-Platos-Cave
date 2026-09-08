@@ -203,13 +203,14 @@ jobs:
 
       - name: Install locked fault-test environment
         run: |
-          python -m pip install --require-hashes -r requirements/consultation-win-py312.lock.txt
-          python -m pip install --no-index --no-build-isolation --no-deps .
-          python -m pip check
+          python -m venv .venv
+          ./.venv/Scripts/python.exe -m pip install --require-hashes -r requirements/consultation-win-py312.lock.txt
+          ./.venv/Scripts/python.exe -m pip install --no-index --no-build-isolation --no-deps .
+          ./.venv/Scripts/python.exe -m pip check
 
       - name: Run consultation process-fault tests
         run: |
-          python -m pytest -q -p no:cacheprovider -m fault tests/consultation_kb/fault
+          ./.venv/Scripts/python.exe -m pytest -q -p no:cacheprovider -m fault tests/consultation_kb/fault
 """,
     Loader=_ActionsLoader,
 )
@@ -543,10 +544,18 @@ def test_windows_fault_ci_is_independent_locked_and_cannot_zero_collect(
     job = workflow["jobs"]["consultation-fault"]
     assert "needs" not in job
     install = _step(job, "Install locked fault-test environment")["run"]
-    assert "--require-hashes" in install
+    assert install.splitlines() == [
+        "python -m venv .venv",
+        "./.venv/Scripts/python.exe -m pip install --require-hashes -r "
+        "requirements/consultation-win-py312.lock.txt",
+        "./.venv/Scripts/python.exe -m pip install --no-index "
+        "--no-build-isolation --no-deps .",
+        "./.venv/Scripts/python.exe -m pip check",
+    ]
     command = _step(job, "Run consultation process-fault tests")["run"].strip()
     assert command == (
-        "python -m pytest -q -p no:cacheprovider -m fault tests/consultation_kb/fault"
+        "./.venv/Scripts/python.exe -m pytest -q -p no:cacheprovider -m fault "
+        "tests/consultation_kb/fault"
     )
     # Pytest exits 5 when this exact selected path/marker collects no tests;
     # there is no shell masking, ignore flag, or allow-empty wrapper.
